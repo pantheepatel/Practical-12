@@ -5,7 +5,9 @@ using System.Web;
 
 namespace Task3.Models
 {
-    public class Class1
+    public class DesignationTask3
     {
+        public int Id { get; set; }
+        public string Designation { get; set; }
     }
 }
