@@ -21,3 +21,6 @@ VALUES
     ('Kavita', NULL, 'Chopra', '1991-12-02', '9876543217', '78 Anna Nagar, Chennai'),
     ('Rohan', 'T', 'Bose', '1996-08-09', '9876543218', '34 Park Street, Kolkata'),
     ('Meera', 'V', 'Iyer', '1989-04-27', '9876543219', '90 MG Road, Pune');
+
+
+SELECT * FROM Employee_Task1;

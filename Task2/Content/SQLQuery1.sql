@@ -1,0 +1,10 @@
+CREATE TABLE Employee_Task2 (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    MiddleName VARCHAR(50),
+    LastName VARCHAR(50) NOT NULL,
+    DOB DATE NOT NULL,
+    MobileNumber VARCHAR(10) NOT NULL,
+    Address VARCHAR(100),
+	Salary DECIMAL NOT NULL
+);
