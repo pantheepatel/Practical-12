@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -194,6 +195,89 @@ namespace Task3.Data
                 }
             }
         }
+        public void CreateEmployee(EmployeeTask3 employee)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand commandQuery = new SqlCommand("InsertEmployee", connection))
+                {
+                    commandQuery.CommandType = CommandType.StoredProcedure;
+                    commandQuery.Parameters.AddWithValue("@FirstName", employee.FirstName);
+                    commandQuery.Parameters.AddWithValue("@MiddleName", employee.MiddleName);
+                    commandQuery.Parameters.AddWithValue("@LastName", employee.LastName);
+                    commandQuery.Parameters.AddWithValue("@DesignationId", employee.DesignationId);
+                    commandQuery.Parameters.AddWithValue("@DOB", employee.DOB);
+                    commandQuery.Parameters.AddWithValue("@MobileNumber", employee.MobileNumber);
+                    commandQuery.Parameters.AddWithValue("@Address", employee.Address);
+                    commandQuery.Parameters.AddWithValue("@Salary", employee.Salary);
 
+                    commandQuery.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public List<CreateViewClass> GetEmployeesOrderedByDOB()
+        {
+            List<CreateViewClass> employees = new List<CreateViewClass>();
+
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("GetAllEmployees", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            employees.Add(new CreateViewClass
+                            {
+                                FirstName = reader["FirstName"].ToString(),
+                                MiddleName = reader["MiddleName"].ToString(),
+                                LastName = reader["LastName"].ToString(),
+                                Designation = reader["Designation"].ToString(),
+                                MobileNumber = reader["MobileNumber"].ToString(),
+                                Address = reader["Address"].ToString(),
+                                DOB = Convert.ToDateTime(reader["DOB"]),
+                                Salary = Convert.ToDecimal(reader["Salary"])
+                            });
+                        }
+                    }
+                }
+            }
+            return employees;
+        }
+
+        public List<EmployeeTask3> GetEmployeesByDesignationId(int designationId)
+        {
+            List<EmployeeTask3> employees = new List<EmployeeTask3>();
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("GetEmployeesByDesignationId", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DesignationId", designationId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            employees.Add(new EmployeeTask3
+                            {
+                                FirstName = reader["FirstName"].ToString(),
+                                MiddleName = reader["MiddleName"].ToString(),
+                                LastName = reader["LastName"].ToString(),
+                                MobileNumber = reader["MobileNumber"].ToString(),
+                                Address = reader["Address"].ToString(),
+                                DOB = Convert.ToDateTime(reader["DOB"]),
+                                Salary = Convert.ToDecimal(reader["Salary"])
+                            });
+                        }
+                    }
+                }
+            }
+            return employees;
+        }           
     }
 }

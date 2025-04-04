@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Get Employees By Designation Id";
+}
+
+<h2> Get Employees By Designation Id</h2>
+
+@using (Html.BeginForm("GetEmployeesByDesignationIdMethod", "Home", FormMethod.Get))
+{
+    <div class="form-group">
+        @Html.Label("Designation Id")
+        @Html.TextBox("designationId", null, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

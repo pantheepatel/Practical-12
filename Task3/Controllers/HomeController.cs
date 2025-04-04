@@ -82,15 +82,35 @@ namespace Task3.Controllers
             return RedirectToAction("Index");
         }
 
-
         // Create a stored procedure to insert data into the Employee table with required parameters
+        public ActionResult CreateEmployee()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateEmployee(EmployeeTask3 e3)
+        {
+            t3Instance.CreateEmployee(e3);
+            return RedirectToAction("Index");
+        }
 
         // Create a stored procedure that returns a list of employees with columns Employee Id, First Name, Middle Name, Last Name, Designation, DOB, Mobile Number, Address & Salary(records should be ordered by DOB)
+        public ActionResult ListOfEmployeesOrderByDOB()
+        {
+            List<CreateViewClass> result = t3Instance.GetEmployeesOrderedByDOB();
+            return View("ListEmpDetailsView", result);
+        }
 
         // Create a stored procedure that return a list of employees by designation id(Input) with columns Employee Id, First Name, Middle Name, Last Name, DOB, Mobile Number, Address & Salary(records should be ordered by First Name)
-
-        // Create Non-Clustered index on the DesignationId column of the Employee table
-
-
+        public ActionResult GetEmployeesByDesignationId()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult GetEmployeesByDesignationIdMethod(int designationId)
+        {
+            List<EmployeeTask3> result = t3Instance.GetEmployeesByDesignationId(designationId);
+            return View(result);
+        }
     }
 }

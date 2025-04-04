@@ -45,3 +45,54 @@ AS
 BEGIN 
     INSERT INTO Designation_Task3 (Designation) VALUES (@DesignationName) 
 END
+
+CREATE PROCEDURE InsertEmployee 
+	@FirstName VARCHAR(50),
+	@MiddleName VARCHAR(50) NULL,
+	@LastName VARCHAR(50),
+	@DesignationId INT,
+	@DOB DATE,
+	@MobileNumber VARCHAR(15),
+	@Address VARCHAR(255),
+	@Salary DECIMAL(10,2) 
+AS 
+BEGIN 
+	INSERT INTO Employee_Task3(FirstName, MiddleName, LastName, DesignationId, DOB, MobileNumber, Address, Salary) 
+	VALUES (@FirstName, @MiddleName, @LastName, @DesignationId, @DOB, @MobileNumber, @Address, @Salary); 
+END;
+
+CREATE PROCEDURE GetEmployeesOrderedByDOB
+AS
+BEGIN
+    SELECT
+        e.Id, 
+        e.FirstName, 
+        e.MiddleName, 
+        e.LastName, 
+        d.Designation, 
+        e.DOB, 
+        e.MobileNumber, 
+        e.Address, 
+        e.Salary
+    FROM Employee_Task3 e
+    JOIN Designation_Task3 d ON e.DesignationId = d.Id
+    ORDER BY e.DOB;
+END;
+
+CREATE PROCEDURE GetEmployeesByDesignationId
+    @DesignationId INT
+AS
+BEGIN
+    SELECT
+        e.Id, 
+        e.FirstName, 
+        e.MiddleName, 
+        e.LastName, 
+        e.DOB, 
+        e.MobileNumber, 
+        e.Address, 
+        e.Salary
+    FROM Employee_Task3 e
+    WHERE e.DesignationId = @DesignationId
+    ORDER BY e.FirstName;
+END;

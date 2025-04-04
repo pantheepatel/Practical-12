@@ -186,6 +186,9 @@
     <Content Include="Views\Home\Query2.cshtml" />
     <Content Include="Views\Home\ListEmpDetailsView.cshtml" />
     <Content Include="Views\Home\CreateDesignation.cshtml" />
+    <Content Include="Views\Home\CreateEmployee.cshtml" />
+    <Content Include="Views\Home\GetEmployeesByDesignationId.cshtml" />
+    <Content Include="Views\Home\GetEmployeesByDesignationIdMethod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
