@@ -125,6 +125,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CreateViewClass.cs" />
     <Compile Include="Models\DesignationCount.cs" />
     <Compile Include="Models\DesignationTask3.cs" />
     <Compile Include="Models\Employee1Task3.cs" />
@@ -183,6 +184,8 @@
     <Content Include="Views\Home\QueryResultView.cshtml" />
     <Content Include="Views\Home\Query1.cshtml" />
     <Content Include="Views\Home\Query2.cshtml" />
+    <Content Include="Views\Home\ListEmpDetailsView.cshtml" />
+    <Content Include="Views\Home\CreateDesignation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

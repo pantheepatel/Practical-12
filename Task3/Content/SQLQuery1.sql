@@ -37,3 +37,11 @@ INSERT INTO Employee_Task3 (FirstName, MiddleName, LastName, DOB, MobileNumber, 
 ('Ritika', NULL, 'Gupta', '1993-02-17', '7676767676', 'Jaipur, India', 89000.00, 2),
 ('Nitin', NULL, 'Joshi', '1994-08-29', '9191919191', 'Chandigarh, India', 65000.00, 6),
 ('Kavita', 'Ramesh', 'Desai', '1991-10-05', '9292929292', 'Surat, India', 102000.00, 5);
+
+
+CREATE PROCEDURE InsertDesignation 
+    @DesignationName NVARCHAR(50)
+AS 
+BEGIN 
+    INSERT INTO Designation_Task3 (Designation) VALUES (@DesignationName) 
+END

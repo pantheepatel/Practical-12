@@ -1,7 +1,8 @@
-﻿using Microsoft.Ajax.Utilities;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -59,8 +60,28 @@ namespace Task3.Controllers
         }
 
         // Create a database view that outputs Employee Id, First Name, Middle Name, Last Name, Designation, DOB, Mobile Number, Address & Salary
+        public ActionResult CreateView()
+        {
+            // use to create view
+            //string query = "CREATE VIEW EmployeeDetails AS SELECT e.Id, e.FirstName, e.MiddleName, e.LastName, d.Designation, e.DOB, e.MobileNumber, e.Address, e.Salary FROM Employee_Task3 e JOIN Designation_Task3 d ON e.DesignationId = d.Id";
+            // to retrieve data from view
+            string query = "select Id, FirstName, MiddleName, LastName, Designation, DOB, MobileNumber, Address, Salary from EmployeeDetails";
+            List<CreateViewClass> result = t3Instance.createViewClasses(query);
+            return View("ListEmpDetailsView", result);
+        }
 
         // Create a stored procedure to insert data into the Designation table with required parameters
+        public ActionResult CreateDesignation()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateDesignation(DesignationTask3 d3)
+        {
+            t3Instance.CreateDesignation(d3.Designation);
+            return RedirectToAction("Index");
+        }
+
 
         // Create a stored procedure to insert data into the Employee table with required parameters
 
@@ -69,7 +90,6 @@ namespace Task3.Controllers
         // Create a stored procedure that return a list of employees by designation id(Input) with columns Employee Id, First Name, Middle Name, Last Name, DOB, Mobile Number, Address & Salary(records should be ordered by First Name)
 
         // Create Non-Clustered index on the DesignationId column of the Employee table
-
 
 
     }

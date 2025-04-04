@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Task3.Models;
 
 namespace Task3.Data
@@ -49,7 +51,6 @@ namespace Task3.Data
 
             return employees;
         }
-
 
         public void ExecuteSelectedQuery(string userQuery, List<SqlParameter> parameters = null)
         {
@@ -143,5 +144,56 @@ namespace Task3.Data
 
             return employeeList;
         }
+
+        public List<CreateViewClass> createViewClasses(string query) 
+        {
+            List<CreateViewClass> employeeList = new List<CreateViewClass>();
+
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CreateViewClass employee = new CreateViewClass
+                        {
+                            // DOB, MobileNumber, Address, Salary
+                            Id = reader["Id"].ToString(),
+                            FirstName = reader["FirstName"].ToString(),
+                            MiddleName = reader["MiddleName"].ToString(),
+                            LastName = reader["LastName"].ToString(),
+                            Designation = reader["Designation"].ToString(),
+                            DOB = (DateTime)reader["DOB"],
+                            MobileNumber = reader["MobileNumber"].ToString(),
+                            Address = reader["Address"].ToString(),
+                            Salary = (decimal)reader["Salary"]
+                        };
+
+                        employeeList.Add(employee);
+                    }
+                }
+            }
+
+            return employeeList;
+        }
+
+        public void CreateDesignation(string designationName)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand commandQuery = new SqlCommand("InsertDesignation", connection))
+                {
+                    commandQuery.CommandType = CommandType.StoredProcedure; // Set CommandType to StoredProcedure
+                    commandQuery.Parameters.AddWithValue("@DesignationName", designationName);
+
+                    commandQuery.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
