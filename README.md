@@ -4,13 +4,15 @@ This project contains SQL scripts for managing employee records across three tas
 
 ## Common Prerequisites
 
+Update the `web.config` file with the following connection string:
+
 ```xml
 <connectionStrings>
     <add name="DefaultConnection" connectionString="Server=.\SQLEXPRESS;Database=Practical12;Trusted_Connection=True;TrustServerCertificate=true" providerName="System.Data.SqlClient" />
 </connectionStrings>
 ```
 
-Change this connection string for all projects according to your configuration.
+> **Note:** Modify the connection string if your SQL Server instance differs from `.\SQLEXPRESS`.
 
 ```sql
 CREATE DATABASE Practical12
