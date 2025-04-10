@@ -2,6 +2,33 @@
 
 This project contains SQL scripts for managing employee records across three tasks. Each task focuses on different aspects of database design including table creation, data insertion, and implementing relationships using foreign keys.
 
+## Common Prerequisites
+
+```xml
+<connectionStrings>
+    <add name="DefaultConnection" connectionString="Server=.\SQLEXPRESS;Database=Practical12;Trusted_Connection=True;TrustServerCertificate=true" providerName="System.Data.SqlClient" />
+</connectionStrings>
+```
+
+Change this connection string for all projects according to your configuration.
+
+```sql
+CREATE DATABASE Practical12
+USE Practical12
+```
+
+Run below stored procedures:
+
+```sql
+CREATE PROCEDURE InsertDesignation @DesignationName NVARCHAR(50) AS BEGIN INSERT INTO Designation_Task3 (Designation) VALUES (@DesignationName) END
+
+CREATE PROCEDURE InsertEmployee @FirstName VARCHAR(50), @MiddleName VARCHAR(50) NULL, @LastName VARCHAR(50), @DesignationId INT, @DOB DATE, @MobileNumber VARCHAR(15), @Address VARCHAR(255), @Salary DECIMAL(10,2) AS BEGIN INSERT INTO Employee_Task3(FirstName, MiddleName, LastName, DesignationId, DOB, MobileNumber, Address, Salary) VALUES (@FirstName, @MiddleName, @LastName, @DesignationId, @DOB, @MobileNumber, @Address, @Salary); END;
+
+CREATE PROCEDURE GetEmployeesOrderedByDOB AS BEGIN SELECT e.Id, e.FirstName, e.MiddleName, e.LastName, d.Designation, e.DOB, e.MobileNumber, e.Address, e.Salary FROM Employee_Task3 e JOIN Designation_Task3 d ON e.DesignationId = d.Id ORDER BY e.DOB; END;
+
+CREATE PROCEDURE GetEmployeesByDesignationId @DesignationId INT AS BEGIN SELECT e.Id, e.FirstName, e.MiddleName, e.LastName, e.DOB, e.MobileNumber, e.Address, e.Salary FROM Employee_Task3 e WHERE e.DesignationId = @DesignationId ORDER BY e.FirstName; END;
+```
+
 ---
 
 ## Task 1: Basic Employee Table
@@ -52,7 +79,7 @@ CREATE TABLE Employee_Task2 (
     DOB DATE NOT NULL,
     MobileNumber VARCHAR(10) NOT NULL,
     Address VARCHAR(100),
-	Salary DECIMAL NOT NULL
+    Salary DECIMAL NOT NULL
 );
 ```
 
@@ -89,8 +116,13 @@ CREATE TABLE Designation_Task3 (
 ### Insert Designations
 
 ```sql
-INSERT INTO Designation (Designation) 
-VALUES ('Software Engineer'), ('Project Manager'), ('HR');
+INSERT INTO Designation_Task3 (Designation) VALUES 
+('Software Engineer'),
+('Senior Software Engineer'),
+('Team Lead'),
+('Project Manager'),
+('HR Manager'),
+('Business Analyst');
 ```
 
 ### Create `Employee_Task3` Table with Foreign Key
@@ -110,19 +142,7 @@ CREATE TABLE Employee_Task3 (
 );
 ```
 
-### Insert Records into `Designation_Task3`
-
-```sql
-INSERT INTO Designation_Task3 (Designation) VALUES 
-('Software Engineer'),
-('Senior Software Engineer'),
-('Team Lead'),
-('Project Manager'),
-('HR Manager'),
-('Business Analyst');
-```
-
-### Insert Records into `Employee2`
+### Insert Records into `Employee_Task3`
 
 ```sql
 INSERT INTO Employee_Task3 (FirstName, MiddleName, LastName, DOB, MobileNumber, Address, Salary, DesignationId) VALUES
